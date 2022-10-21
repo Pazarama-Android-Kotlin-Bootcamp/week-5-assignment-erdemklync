@@ -14,8 +14,8 @@ import retrofit2.Retrofit
 @InstallIn(ViewModelComponent::class)
 class UsersModule {
     @Provides
-    fun provideApiService(retrofit: Retrofit): PostService {
-        return retrofit.create(PostService::class.java)
+    fun provideApiService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 
     @Provides
