@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+		<variable
+			name="user"
+			type="com.ekalyoncu.retrofitexample.data.model.Users" />
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:padding="16dp">
+
+		<TextView
+			android:id="@+id/text_name"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="Leanne Graham"
+			android:text="@{user.name}"
+			android:textStyle="bold"
+			android:textSize="16sp"
+
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			/>
+
+		<TextView
+			android:id="@+id/text_username"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="Bret"
+			android:text="@{user.username}"
+			android:textStyle="italic"
+
+			app:layout_constraintTop_toBottomOf="@id/text_name"
+			app:layout_constraintStart_toStartOf="parent"
+			/>
+
+		<TextView
+			android:id="@+id/text_email"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="sincere@april.biz"
+			android:text="@{user.email}"
+			android:textStyle="italic"
+
+			app:layout_constraintTop_toBottomOf="@id/text_username"
+			app:layout_constraintStart_toStartOf="parent"
+			/>
+
+		<TextView
+			android:id="@+id/text_phone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="1-770-736-8031 x56442"
+			android:text="@{user.phone}"
+			android:textStyle="italic"
+
+			app:layout_constraintTop_toBottomOf="@id/text_email"
+			app:layout_constraintStart_toStartOf="parent"
+			/>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
