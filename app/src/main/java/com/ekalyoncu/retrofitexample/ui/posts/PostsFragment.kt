@@ -19,7 +19,8 @@ import com.ekalyoncu.retrofitexample.databinding.FragmentPostsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PostsFragment : Fragment(), OnPostClickListener {
+class PostsFragment : Fragment() {
+
     lateinit var loadingProgressBar: LoadingProgressBar
     private lateinit var binding: FragmentPostsBinding
     private val viewModel by viewModels<PostsViewModel>()
@@ -44,7 +45,13 @@ class PostsFragment : Fragment(), OnPostClickListener {
                 is DataState.Success -> {
                     loadingProgressBar.hide()
                     it.data?.let { safeData ->
-                        binding.rvPostsList.adapter = PostsAdapter(this@PostsFragment).apply {
+                        binding.rvPostsList.adapter = PostsAdapter(
+                            object : OnPostClickListener {
+                                override fun onPostClick(post: PostDTO) {
+                                    TODO("Not yet implemented")
+                                }
+                            }
+                        ).apply {
                             submitList(safeData)
                         }
                     } ?: run {
@@ -67,30 +74,6 @@ class PostsFragment : Fragment(), OnPostClickListener {
                 is PostViewEvent.NavigateToDetail -> {}
             }
         }
-
-        /*
-        Way 2
-         viewModel.postLiveData.observe(viewLifecycleOwner) {
-            binding.rvPostsList.adapter = PostsAdapter().apply {
-                submitList(it)
-            }
-        }
-
-         */
     }
 
-    override fun onPostClick(post: PostDTO) {
-        viewModel.onFavoritePost(post)
-    }
 }
-
-/*
-@BindingAdapter("app:postList")
-fun setPostList(recyclerView: RecyclerView, postList: List<Post>?) {
-    postList?.let {
-        recyclerView.adapter = PostsAdapter().apply {
-            submitList(it)
-        }
-    }
-}
- */

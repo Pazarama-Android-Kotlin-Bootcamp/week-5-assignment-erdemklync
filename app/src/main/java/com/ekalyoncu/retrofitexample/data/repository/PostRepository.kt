@@ -6,7 +6,7 @@ import retrofit2.Call
 
 interface PostRepository {
     fun getPosts(): Call<List<Post>>
-    fun getPostById(id: Long): PostEntity?
+    fun getPostById(id: Long): Call<Post>
     fun insertFavoritePost(post: PostEntity)
     fun deleteFavoritePost(post: PostEntity)
 }

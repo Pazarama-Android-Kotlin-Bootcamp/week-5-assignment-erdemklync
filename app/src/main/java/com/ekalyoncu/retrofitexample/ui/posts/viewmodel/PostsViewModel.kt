@@ -33,65 +33,37 @@ class PostsViewModel @Inject constructor(
 
     private fun getPosts() {
         _postLiveData.postValue(DataState.Loading())
-        postRepository.getPosts().enqueue(object : Callback<List<Post>> {
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-
-                        _postLiveData.postValue(DataState.Success(it.map { safePost ->
-                            PostDTO(
-                                id = safePost.id?.toLong(),
-                                title = safePost.title,
-                                body = safePost.body,
-                                userId = safePost.userId,
-                                isFavorite = isExists(0)
+        postRepository.getPosts().enqueue(
+            object : Callback<List<Post>> {
+                override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            _postLiveData.postValue(
+                                DataState.Success(
+                                    it.map { safePost ->
+                                        PostDTO(
+                                            id = safePost.id?.toLong(),
+                                            title = safePost.title,
+                                            body = safePost.body,
+                                            userId = safePost.userId,
+                                        )
+                                    }
+                                )
                             )
-                        }))
-
-                    } ?: kotlin.run {
-                        _postLiveData.postValue(DataState.Error("Data Empty"))
+                        } ?: kotlin.run {
+                            _postLiveData.postValue(DataState.Error("Data Empty"))
+                        }
+                    } else {
+                        _postLiveData.postValue(DataState.Error(response.message()))
                     }
-                } else {
-                    _postLiveData.postValue(DataState.Error(response.message()))
+                }
+
+                override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+                    _postLiveData.postValue(DataState.Error(t.message.toString()))
+                    _eventStateLiveData.postValue(PostViewEvent.ShowMessage(t.message.toString()))
                 }
             }
-
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                _postLiveData.postValue(DataState.Error(t.message.toString()))
-                _eventStateLiveData.postValue(PostViewEvent.ShowMessage(t.message.toString()))
-            }
-        })
-    }
-
-    fun onFavoritePost(post: PostDTO) {
-        post.id?.let {
-            postRepository.getPostById(it)?.let {
-                postRepository.deleteFavoritePost(
-                    PostEntity(
-                        id = post.id?.toLong(),
-                        postTitle = post.title,
-                        postBody = post.body
-                    )
-                )
-            }
-        } ?: kotlin.run {
-            postRepository.insertFavoritePost(
-                PostEntity(
-                    id = post.id,
-                    postTitle = post.title,
-                    postBody = post.body
-                )
-            )
-        }
-    }
-
-    private fun isExists(postId: Long): Boolean {
-        postId.let {
-            postRepository.getPostById(it)?.let {
-                return true
-            }
-        }
-        return false
+        )
     }
 }
 
