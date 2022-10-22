@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.ekalyoncu.retrofitexample.R
 import com.ekalyoncu.retrofitexample.data.model.DataState
 import com.ekalyoncu.retrofitexample.data.model.PostDTO
 import com.ekalyoncu.retrofitexample.ui.loadingprogress.LoadingProgressBar
@@ -48,6 +51,11 @@ class PostsFragment : Fragment() {
                         binding.rvPostsList.adapter = PostsAdapter(
                             object : OnPostClickListener {
                                 override fun onPostClick(post: PostDTO) {
+                                    val bundle = bundleOf("postId" to post.id)
+                                    findNavController().navigate(R.id.postDetailFragment, bundle)
+                                }
+
+                                override fun onFavorite(post: PostDTO) {
                                     TODO("Not yet implemented")
                                 }
                             }

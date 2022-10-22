@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ekalyoncu.retrofitexample.data.model.PostDTO
 import com.ekalyoncu.retrofitexample.databinding.ItemPostLayoutBinding
 
-class PostsAdapter(private val listener: OnPostClickListener) : ListAdapter<PostDTO, PostsAdapter.PostViewHolder>(PostsDiffUtil()) {
+class PostsAdapter(
+    private val listener: OnPostClickListener,
+) : ListAdapter<PostDTO, PostsAdapter.PostViewHolder>(PostsDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
        return PostViewHolder(
             ItemPostLayoutBinding.inflate(
@@ -23,10 +25,12 @@ class PostsAdapter(private val listener: OnPostClickListener) : ListAdapter<Post
         holder.bind(getItem(position), listener)
     }
 
-    class PostViewHolder(private val binding: ItemPostLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    class PostViewHolder(
+        private val binding: ItemPostLayoutBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: PostDTO, listener: OnPostClickListener) {
             binding.dataHolder = post
-            binding.ivPostImage.setOnClickListener {
+            binding.root.setOnClickListener {
                 listener.onPostClick(post)
             }
             binding.executePendingBindings()
@@ -46,4 +50,5 @@ class PostsAdapter(private val listener: OnPostClickListener) : ListAdapter<Post
 
 interface OnPostClickListener {
     fun onPostClick(post: PostDTO)
+    fun onFavorite(post: PostDTO)
 }

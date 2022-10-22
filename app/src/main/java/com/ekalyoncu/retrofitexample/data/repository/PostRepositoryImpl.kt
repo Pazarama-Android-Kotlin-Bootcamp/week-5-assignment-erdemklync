@@ -14,6 +14,10 @@ class PostRepositoryImpl constructor(
         return postService.getPosts()
     }
 
+    override fun getFavorites(): List<PostEntity> {
+        return postsDatabase.postDao().getAllPosts()
+    }
+
     override fun getPostById(id: Long): Call<Post> {
         //return postsDatabase.postDao().getPostById(id)
         return postService.getPostById(id)
