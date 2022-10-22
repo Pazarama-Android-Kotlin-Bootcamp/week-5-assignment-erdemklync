@@ -59,10 +59,8 @@ class FavoritesFragment : Fragment() {
                             }
                         )
                     }
-
                 }
             }
         }
     }
-
 }

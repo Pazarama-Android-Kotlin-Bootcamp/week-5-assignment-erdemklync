@@ -6,9 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.ekalyoncu.retrofitexample.data.model.DataState
 import com.ekalyoncu.retrofitexample.data.model.Post
-import com.ekalyoncu.retrofitexample.data.model.PostDTO
 import com.ekalyoncu.retrofitexample.data.repository.PostRepository
-import com.ekalyoncu.retrofitexample.ui.posts.viewmodel.PostViewEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback

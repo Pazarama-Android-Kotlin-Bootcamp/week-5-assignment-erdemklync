@@ -23,6 +23,10 @@ class PostsViewModel @Inject constructor(
     val postLiveData: LiveData<DataState<List<PostDTO>?>>
         get() = _postLiveData
 
+    private var _postCacheData = MutableLiveData<List<PostDTO>?>()
+    private val postCacheData: LiveData<List<PostDTO>?>
+        get() = _postCacheData
+
     private val _eventStateLiveData = MutableLiveData<PostViewEvent>()
     val eventStateLiveData: LiveData<PostViewEvent>
         get() = _eventStateLiveData
@@ -46,6 +50,7 @@ class PostsViewModel @Inject constructor(
                                             title = safePost.title,
                                             body = safePost.body,
                                             userId = safePost.userId,
+                                            isFavorite = isExists(safePost.id)
                                         )
                                     }
                                 )
@@ -64,6 +69,41 @@ class PostsViewModel @Inject constructor(
                 }
             }
         )
+    }
+
+    fun onFavoritePost(post: PostDTO) {
+        post.id?.let { safePostId ->
+            postRepository.getPostById(safePostId.toInt()).let {
+                postRepository.deleteFavoritePost(
+                    PostEntity(
+                        id = post.id.toLong(),
+                        postTitle = post.title,
+                        postBody = post.body,
+                    )
+                )
+                _postLiveData.value =
+                    DataState.Success(prepareUpdatePostData(post, isDelete = true))
+            }
+        }
+    }
+    private fun prepareUpdatePostData(post: PostDTO, isDelete: Boolean = false): List<PostDTO>? {
+        postCacheData.value?.map {
+            if (post.id == it.id) {
+                it.copy(isFavorite = !isDelete)
+            } else {
+                it
+            }
+        }
+        return postCacheData.value
+    }
+
+    private fun isExists(postId: Int?): Boolean {
+        postId?.let {
+            postRepository.getPostById(it)?.let {
+                return true
+            }
+        }
+        return false
     }
 }
 
