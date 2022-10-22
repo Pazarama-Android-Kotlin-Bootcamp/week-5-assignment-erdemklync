@@ -50,5 +50,5 @@ class PostsAdapter(
 
 interface OnPostClickListener {
     fun onPostClick(post: PostDTO)
-    fun onFavorite(post: PostDTO)
+    fun onFavorite(post: PostDTO){}
 }

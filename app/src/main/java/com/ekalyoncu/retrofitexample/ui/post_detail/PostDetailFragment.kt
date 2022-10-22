@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.ekalyoncu.retrofitexample.data.model.DataState
 import com.ekalyoncu.retrofitexample.databinding.FragmentPostDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PostDetailFragment : Fragment() {
 
     private val viewModel: PostDetailViewModel by viewModels()

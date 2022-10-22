@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.ekalyoncu.retrofitexample.data.local.database.entity.PostEntity
 import com.ekalyoncu.retrofitexample.data.model.DataState
 import com.ekalyoncu.retrofitexample.data.repository.PostRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val postRepository: PostRepository,
 ) : ViewModel() {

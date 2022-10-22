@@ -80,6 +80,7 @@ class PostsFragment : Fragment() {
             when (it) {
                 is PostViewEvent.ShowMessage -> {}
                 is PostViewEvent.NavigateToDetail -> {}
+                else -> {}
             }
         }
     }
